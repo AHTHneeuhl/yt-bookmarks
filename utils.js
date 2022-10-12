@@ -1,5 +1,5 @@
-export const getCurrentTap = async () => {
-  let queryOptions = { active: true, currentWindow: true };
-  let [tab] = await chrome.tabs.query(queryOptions);
-  return tab;
+export const getCurrentTab = async () => {
+  const queryOptions = { active: true, currentWindow: true };
+  const tabs = await chrome.tabs.query(queryOptions);
+  return tabs[0];
 };
