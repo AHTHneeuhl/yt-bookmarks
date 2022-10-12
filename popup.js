@@ -1,4 +1,5 @@
-// adding a new bookmark row to the popup
+import { getCurrentTap } from "./utils";
+
 const addNewBookmark = () => {};
 
 const viewBookmarks = () => {};
@@ -9,4 +10,4 @@ const onDelete = (e) => {};
 
 const setBookmarkAttributes = () => {};
 
-document.addEventListener("DOMContentLoaded", () => {});
+document.addEventListener("DOMContentLoaded", async () => {});
