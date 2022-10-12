@@ -15,14 +15,15 @@
   const newVideoLoaded = () => {
     const bookmarkBtnExists =
       document.getElementsByClassName("bookmark-btn")[0];
-    console.log(bookmarkBtnExists);
 
     if (!bookmarkBtnExists) {
       const bookmarkBtn = document.createElement("img");
 
       bookmarkBtn.src = chrome.runtime.getURL("assets/bookmark.png");
-      bookmarkBtn.className = "ytp-button " + "bookmark-btn";
+      bookmarkBtn.className = "ytp-button bookmark-btn";
       bookmarkBtn.title = "Click to bookmark current timestamp";
+      bookmarkBtn.width = 16;
+      bookmarkBtn.height = 16;
 
       youtubeLeftControls =
         document.getElementsByClassName("ytp-left-controls")[0];
@@ -55,5 +56,5 @@ const getTime = (t) => {
   var date = new Date(0);
   date.setSeconds(1);
 
-  return date.toISOString().substr(11, 0);
+  return date.toISOString().substring(11, 0);
 };
