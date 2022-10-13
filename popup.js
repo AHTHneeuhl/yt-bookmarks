@@ -1,6 +1,25 @@
 import { getCurrentTab } from "./utils.js";
 
-const addNewBookmark = (bookmarksElement, bookmark) => {};
+const addNewBookmark = (bookmarksElement, bookmark) => {
+  const bookmarkTitleElement = document.createElement("div");
+  const newBookmarkElement = document.createElement("div");
+  const controlsElement = document.createElement("div");
+
+  bookmarkTitleElement.textContent = bookmark.desc;
+  bookmarkTitleElement.className = "bookmark-title";
+
+  controlsElement.className = "bookmark-controls";
+
+  newBookmarkElement.id = `bookmark-${bookmark.time}`;
+  newBookmarkElement.className = "bookmark";
+  newBookmarkElement.setAttribute("timestamp", bookmark.time);
+
+  setBookmarkAttributes("play", onPlay, controlsElement);
+
+  newBookmarkElement.appendChild(bookmarkTitleElement);
+  bookmarksElement.appendChild(controlsElement);
+  bookmarksElement.appendChild(newBookmarkElement);
+};
 
 const viewBookmarks = (currentBookmarks = []) => {
   const bookmarksElement = document.getElementById("bookmarks");
@@ -15,11 +34,26 @@ const viewBookmarks = (currentBookmarks = []) => {
   }
 };
 
-const onPlay = (e) => {};
+const onPlay = async (e) => {
+  const bookmarkTime = e.target.parentNode.parentNode.getAttribute("timestamp");
+  const currentTab = await getCurrentTab();
+
+  chrome.tabs.sendMessage(currentTab.id, {
+    type: "PLAY",
+    value: bookmarkTime,
+  });
+};
 
 const onDelete = (e) => {};
 
-const setBookmarkAttributes = () => {};
+const setBookmarkAttributes = (src, eventListener, controlParentElement) => {
+  const controlElement = document.createElement("img");
+
+  controlElement.src = `assets/${src}.png`;
+  controlElement.title = src;
+  controlElement.addEventListener("click", eventListener);
+  controlParentElement.appendChild(controlElement);
+};
 
 document.addEventListener("DOMContentLoaded", async () => {
   const currentTab = await getCurrentTab();
@@ -33,6 +67,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       const currentVideoBookmarks = res[currentVideo]
         ? JSON.parse(res[currentVideo])
         : [];
+
+      viewBookmarks(currentVideoBookmarks);
     });
   } else {
     const container = document.getElementsByClassName("container")[0];

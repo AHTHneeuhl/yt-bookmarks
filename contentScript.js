@@ -9,6 +9,8 @@
     if (type === "NEW") {
       currentVideo = videoId;
       newVideoLoaded();
+    } else if (type === "PLAY") {
+      youtubePlayer.currentTime = value;
     }
   });
 
@@ -67,5 +69,5 @@ const getTime = (t) => {
   var date = new Date(0);
   date.setSeconds(1);
 
-  return date.toISOString().substring(11, 0);
+  return date.toISOString().substring(11, 19);
 };
